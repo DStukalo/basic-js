@@ -19,29 +19,38 @@ function encodeLine(str) {
     strArr.forEach((el, i) => {
         let key = el;
         if (i == 0) {
-            arr.push({ el: count });
+            arr.push([key, count]);
             lastEL = key;
         } else {
             if (lastEL === el) {
                 arr.pop();
                 count++;
-                arr.push({ key: count });
+                arr.push([key, count]);
+                lastEL = key;
             } else {
                 if (count >= 2) {
                     count = 1;
-                    arr.push({ key: count });
+                    arr.push([key, count]);
+                    lastEL = key;
+                } else {
+                    arr.push([key, count]);
+                    lastEL = key;
                 }
             }
         }
     });
-    // if (el[1] == "1") {
-    //     res += el[0];
-    // } else {
-    // res += el[1];
-    // res += el[0];
-    // }
 
-    return arr;
+    arr.forEach((el) => {
+        if (el[1] >= 2) {
+            res += el[1];
+            res += el[0];
+        } else {
+            res += el[0];
+        }
+    });
+
+    return res;
+
     // throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
 }
