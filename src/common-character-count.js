@@ -12,33 +12,36 @@ const { NotImplementedError } = require("../extensions/index.js");
  * Strings have 3 common characters - 2 "a"s and 1 "c".
  */
 function getCommonCharacterCount(s1, s2) {
-    let count1 = 0;
-    let count2 = 0;
-    const symbols1 = new Map();
-    for (const key of s1) {
-        const currCount = symbols1.get(key) || 0;
-        symbols1.set(key, currCount + 1);
+    if (
+        s1.length === 0 ||
+        s2.length === 0 ||
+        typeof s1 !== "string" ||
+        typeof s2 !== "string"
+    ) {
+        return 0;
     }
-    const orderedSymbols1 = [...symbols1.values()];
-    orderedSymbols1.forEach((el) => {
-        if (el >= 2) {
-            count1 += Math.floor(el / 2);
-        }
-    });
+    const firstStringAtArr = [...s1];
+    const twoStringAtArr = [...s2];
+    let res = 0;
+    let usedS1Indexs = [];
+    let usedS2Indexs = [];
 
-    const symbols2 = new Map();
-    for (const key of s2) {
-        const currCount = symbols2.get(key) || 0;
-        symbols2.set(key, currCount + 1);
-    }
-    const orderedSymbols2 = [...symbols2.values()];
-    orderedSymbols2.forEach((el) => {
-        if (el >= 2) {
-            count2 += Math.floor(el / 2);
+    for (let i = 0; i < firstStringAtArr.length; i++) {
+        for (let j = 0; j < twoStringAtArr.length; j++) {
+            if (
+                firstStringAtArr[i] === twoStringAtArr[j] &&
+                !usedS2Indexs.includes(j) &&
+                !usedS1Indexs.includes(i)
+            ) {
+                res++;
+                usedS2Indexs.push(j);
+                usedS1Indexs.push(i);
+            }
         }
-    });
-    res = count1 + count2;
+    }
+
     return res;
+
     // throw new NotImplementedError("Not implemented");
     // remove line with error and write your code here
 }

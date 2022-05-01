@@ -12,16 +12,23 @@ const { NotImplementedError } = require("../extensions/index.js");
  *
  */
 function getSeason(date) {
-    // let res = "";
     if (!date || !date instanceof Date) {
         return "Unable to determine the time of year!";
     }
-
-    let month = date.getMonth();
-
-    if ((month >= 0 && month <= 1) || a === 11) {
-        return winter;
+    if (date.hasOwnProperty("now")) {
+        return "Invalid date!";
     }
+    let month = date.getMonth();
+    if (month <= 1 || month === 11) {
+        return "winter";
+    } else if (month <= 4) {
+        return "spring";
+    } else if (month <= 7) {
+        return "summer";
+    } else {
+        return "autumn";
+    }
+    return "Invalid date!";
 }
 
 module.exports = {
